@@ -1,0 +1,1 @@
+webpack --config ./webpack/webpack.client.config.js --mode development --watch
