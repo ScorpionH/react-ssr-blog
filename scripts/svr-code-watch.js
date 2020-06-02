@@ -1,9 +1,9 @@
 // 监听服务端代码构建，每次构建完成时，通知主进程重启node服务
 
 const webpack = require('webpack')
-const config = require('../webpack.server.config')
+const config = require('../webpack/webpack.server.config')
 const constantCode = require('./constant')
-const ComplieDoneNotifyPlugin = require('../plugin/ComplieDoneNotifyPlugin')
+const ComplieDoneNotifyPlugin = require('../webpack/plugin/ComplieDoneNotifyPlugin')
 config.mode = 'development';
 config.plugins.push(new ComplieDoneNotifyPlugin('server'));
 const compiler = webpack(config);

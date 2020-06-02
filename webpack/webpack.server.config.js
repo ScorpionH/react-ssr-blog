@@ -53,7 +53,7 @@ const baseConfig = {
                         publicPath: '/'
                     }
                 },
-                { loader: 'css-loader' },
+                {loader: 'css-loader'},
                 { loader: 'postcss-loader' }
             ]
         }, {

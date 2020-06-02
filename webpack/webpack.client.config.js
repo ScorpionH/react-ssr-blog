@@ -8,7 +8,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ComplieDoneNotifyPlugin = require('./plugin/ComplieDoneNotifyPlugin')
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
-console.log(__dirname);
 const baseConfig = {
     entry: {
         index: path.resolve(__dirname, '../src/client/index.tsx')
