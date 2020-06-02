@@ -11,7 +11,7 @@ const feCodeWatchProcess = spawn('npm', ['run', 'client:dev'], { stdio: 'inherit
 const svrCodeWatchProcess = spawn('npm', ['run', 'svr:watch']);
 // 开启http-server
 const startHttpServer = function () {
-    httpServerProcess && httpServerProcess.kill();\
+    httpServerProcess && httpServerProcess.kill();
     httpServerProcess = spawn('npm', ['run', 'svr:serve'], { stdio: 'inherit' });
 }
 const killChildProcess = () => {
