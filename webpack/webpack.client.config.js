@@ -28,9 +28,6 @@ const baseConfig = {
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-        alias: {
-            '@': __dirname + '/src'
-        }
     },
     optimization: {
         //minimize 如果mode是production，默认是true，开启压缩模式
@@ -41,11 +38,6 @@ const baseConfig = {
             chunks: "all",
             automaticNameDelimiter: '~',
             cacheGroups: {
-                // vendors: { // 抽离第三方库
-                //     test: /node_modules/, // 指定node_modules下的包
-                //     name: 'libs',// 打包后的文件名   
-                //     priority: 0,
-                // },
                 default: {
                     minChunks: 2,
                     priority: -20,
@@ -55,7 +47,6 @@ const baseConfig = {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendors',
                     chunks: 'all',
-                    minChunks: 8,
                     priority: 1, // 该配置项是设置处理的优先级，数值越大越优先处理，处理后优先级低的如果包含相同模块则不再处理
                 },
                 common: {

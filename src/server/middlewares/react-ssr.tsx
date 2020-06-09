@@ -32,7 +32,6 @@ const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
                 <meta charset="UTF-8">
                 <title>my react ssr</title>
                 <link href="css/index.css" rel="stylesheet">
-                <link href="css/libs.css" rel="stylesheet">
             </head>
             <body>
                 <div id="app">${renderString}</div>
