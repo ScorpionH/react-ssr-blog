@@ -1,4 +1,5 @@
-const { spawn, fork } = require('child_process')
+const argv = require('yargs-parser')(process.argv.slice(2));
+const { spawn } = require('child_process')
 const chalk = require('chalk')
 const constantCode = require('./constant')
 

@@ -2,13 +2,11 @@ const merge = require('webpack-merge');
 const argv = require('yargs-parser')(process.argv.slice(2));
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const htmlWebpackPlugin = require("html-webpack-plugin")
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals')
-const webpackManifestPlugin = require('webpack-manifest-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const fs = require('fs');
 const nodeModules = {};
+//服务端代码编译时排除node_modules模块
 fs.readdirSync('node_modules')
     .filter(function (x) {
         return ['.bin'].indexOf(x) === -1;
@@ -31,7 +29,7 @@ const baseConfig = {
         filename: "[name].js"
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx',],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     },
     //externals: [nodeExternals()],
     externals: nodeModules,
@@ -71,6 +69,9 @@ const baseConfig = {
         }]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            '__IS_SERVER__': true
+        }),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",//将css文件单独放入css文件夹中
             chunkFilename: "css/[name].css" //公共样式提取到main.css

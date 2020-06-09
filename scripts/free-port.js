@@ -1,7 +1,6 @@
 const { exec, execSync } = require('child_process')
 
 const freePort = function (port) {
-    //console.log('开始释放端口')
     const args = process.argv.slice(2);
     const argPort = args && args[0];
     let exeRes = [];
@@ -13,19 +12,14 @@ const freePort = function (port) {
         return;
     }
     exeRes.split('\n').forEach(line => {
-        console.log(line);
         const splitInfo = line.trim().split(/\s+/);
         const pid = splitInfo[1];
         if (pid && pid !== 'PID') {
             let killPortRes = '';
 
             try {
-                killPortRes = execSync(`kill -9 ${pid}`).toString();
-            } catch (e) {
-                console.log(e.toString());
-                return console.log(`释放${port}端口失败`)
-            }
-            //console.log('释放结束')
+                return execSync(`kill -9 ${pid}`).toString();
+            } catch (e) {}
         }
         // exec(`kill -9 ${pid}`, (err, stdout, stderr) => {
         //     if (err)

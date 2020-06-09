@@ -3,6 +3,15 @@ class About extends React.Component {
     constructor(props: any){
         super(props);
     }
+    static async getInitialData(){
+        const fetchData: () => Promise<object> = () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(['a','b','c','d']);
+            }, 1000)
+        })
+        const res = await fetchData();
+        return res;
+    }
     click = () => {
         alert(123)
     }

@@ -10,8 +10,8 @@ class Index extends React.Component<props, state> {
     }
     render() {
         return <div>
-            <Link to='/home'><Button>home</Button></Link>
-            <Link to='/about'>about</Link>
+            <Link to='/'><Button>home</Button></Link>
+            <Link to='/about'><Button>about</Button></Link>
             {this.props.children}
         </div>
     }

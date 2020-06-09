@@ -1,14 +1,19 @@
 import Home from '../client/pages/home'
 import About from '../client/pages/about'
-export default [
+import ReactSSR from '../types/ReactSSR'
+const routeConfigList: ReactSSR.RouteConfig[] = [
     {
-        path: '/home',
+        path: '/',
         component: Home,
-        exact: true
+        exact: true,
+        initialData: {}
     },
     {
         path: '/about',
         component: About,
-        exact: true
+        exact: true,
+        initialData: {}
     }
 ]
+
+export default routeConfigList;

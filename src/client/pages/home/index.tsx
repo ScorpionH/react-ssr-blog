@@ -1,16 +1,50 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
+import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import './index.scss'
-class Home extends React.Component {
-    constructor(props: any){
+interface IHomeProps {
+    initialData: {
+        count: number
+        numberList: number[]
+    }
+    add: () => void
+}
+interface IHomeState {
+    
+}
+class Home extends React.Component<IHomeProps, IHomeState> {
+    constructor(props: IHomeProps) {
         super(props);
     }
-    click = () => {
-        alert(123)
+    static async getInitialData() {
+        const fetchData: () => Promise<object> = () => new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(['a', 'b', 'c', 'd']);
+            }, 1000)
+        })
+        const res = await fetchData();
+        return res;
     }
-    render(){
-        return <div onClick={this.click}>
-            <span className='home'>Home</span>
-        </div>
+
+    render() {
+        return (
+            <div>
+                <span className='home'>Home</span>
+                <span onClick={() => {this.props.add()}}>{this.props.initialData.count}</span>
+            </div>
+        )
     }
 }
-export default Home;
+function mapStateToProps(state: { home_reducer: { count: number } }) {
+    return {
+        initialData: state.home_reducer
+    }
+}
+function mapDispatchToProps(dispatch: Dispatch,) {
+    return {
+        add : () => {
+            dispatch({type: 'ADD'})
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

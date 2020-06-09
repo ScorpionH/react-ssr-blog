@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "experimentalDecorators": true,
-        "allowJs": true,
         "jsx": "react",
+        "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "lib": [
@@ -16,9 +16,10 @@
         "moduleResolution": "node",
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        "noImplicitAny": false,
-        
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "resolveJsonModule": true
     },
     "include": ["src", "typing.d.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules","**/*.js"]
 }

@@ -7,8 +7,9 @@ const webpackManifestPlugin = require('webpack-manifest-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ComplieDoneNotifyPlugin = require('./plugin/ComplieDoneNotifyPlugin')
-const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+const prodConfig = require('./webpack.prod.config')
 const baseConfig = {
+    mode: 'development',
     entry: {
         index: path.resolve(__dirname, '../src/client/index.tsx')
     },
@@ -26,7 +27,7 @@ const baseConfig = {
         historyApiFallback: true
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx',],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
         alias: {
             '@': __dirname + '/src'
         }
@@ -37,27 +38,48 @@ const baseConfig = {
         //splitChunks
         //runtimeChunk
         splitChunks: {
+            chunks: "all",
+            automaticNameDelimiter: '~',
             cacheGroups: {
-                // commons: {
-                //     test: /[\\/]node_modules[\\/]/,
-                //     name: "vendors",
-                //     chunks: "all"
+                // vendors: { // 抽离第三方库
+                //     test: /node_modules/, // 指定node_modules下的包
+                //     name: 'libs',// 打包后的文件名   
+                //     priority: 0,
                 // },
-                // styles: {
-                //     name: 'styles',
-                //     test: /\.css$/,
-                //     chunks: 'all',
-                //     enforce: true
-                // }
-            },
-            // minimizer: [
-            //     new UglifyjsWebpackPlugin({
-            //         chunkFilter: chunk => {
-            //             console.log(chunk);
-            //             return true;
-            //         }
-            //     })
-            // ]
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                    minChunks: 8,
+                    priority: 1, // 该配置项是设置处理的优先级，数值越大越优先处理，处理后优先级低的如果包含相同模块则不再处理
+                },
+                common: {
+                    name: 'common',
+                    chunks: 'initial',
+                    priority: 2,
+                    minChunks: 2,
+                },
+                antdDesign: {
+                    name: 'antd-design', // 单独将 antd-design 拆包
+                    priority: 20,
+                    test: /[\\/]node_modules[\\/]@ant-design[\\/]/,
+                    chunks: 'all',
+                },
+                reactLib: {
+                    name: 'react-lib', // 单独将 lodash 拆包
+                    priority: 20,
+                    test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+                    chunks: 'all',
+                },
+            }
+        },
+        runtimeChunk: {
+            name: "runtime"
         }
     },
     module: {
@@ -95,11 +117,6 @@ const baseConfig = {
             ]
         }]
     },
-    optimization: {
-        runtimeChunk:{
-            name: "runtime"
-        }  
-    },
     //uglifyjs-webpack-plugin
     plugins: [
         new CleanWebpackPlugin(),
@@ -108,7 +125,6 @@ const baseConfig = {
             filename: 'main.html',
             template: path.resolve(__dirname, '../src/index.html'),
         }),
-        new OptimizeCssAssetsPlugin(),//压缩CSS
         new MiniCssExtractPlugin({
             filename: "css/[name].css",//将css文件单独放入css文件夹中
             chunkFilename: "css/[name].css" //公共样式提取到main.css
@@ -116,4 +132,4 @@ const baseConfig = {
         new ComplieDoneNotifyPlugin('client')
     ]
 }
-module.exports = baseConfig;
+module.exports = merge(baseConfig, prodConfig);
