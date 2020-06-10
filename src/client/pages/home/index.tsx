@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import './index.scss'
 interface IHomeProps {
-    initialData: {
-        count: number
-        numberList: number[]
-    }
-    add: () => void
+    count: number,
+    list: number[],
+    dispatch: Dispatch
 }
 interface IHomeState {
-    
+
 }
 class Home extends React.Component<IHomeProps, IHomeState> {
     constructor(props: IHomeProps) {
@@ -23,28 +21,26 @@ class Home extends React.Component<IHomeProps, IHomeState> {
             }, 1000)
         })
         const res = await fetchData();
-        return res;
+        return {
+            home: { list: res, count: 1 }
+        };
     }
 
     render() {
         return (
             <div>
-                <span className='home'>Home_test</span>
-                <span onClick={() => {this.props.add()}}>{this.props.initialData.count}</span>
+                <span className='home'>Home</span>
+                <span onClick={() => { this.props.dispatch({ type: 'ADD' }) }}>{this.props.count}</span>
+                {this.props.list.map(i => <span key={i}>{i}</span>)}
             </div>
         )
     }
 }
-function mapStateToProps(state: { home_reducer: { count: number } }) {
-    return {
-        initialData: state.home_reducer
-    }
+function mapStateToProps(state: any) {
+    const { count, list } = state.home;
+    return { count, list };
 }
-function mapDispatchToProps(dispatch: Dispatch,) {
-    return {
-        add : () => {
-            dispatch({type: 'ADD'})
-        }
-    }
+function mapDispatchToProps(dispatch: Dispatch, ) {
+    return { dispatch }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -15,10 +15,10 @@ module.exports = {
             new UglifyJsPlugin({
                 uglifyOptions: {
                     compress: {
-                        drop_console: true,
-                        drop_debugger: true
+                        //drop_console: true,
+                        //drop_debugger: true
                     },
-                    warnings: false,
+                    //warnings: false,
                     ie8: true,
                     output: {
                         comments: false,

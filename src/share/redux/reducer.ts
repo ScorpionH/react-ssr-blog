@@ -5,6 +5,6 @@ import home_reducer from '../../client/pages/home/reducer';
 import {combineReducers } from 'redux';
 
 export default combineReducers({
-    home_reducer
+    home: home_reducer,
 });
 

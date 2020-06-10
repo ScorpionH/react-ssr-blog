@@ -17,7 +17,7 @@ const routeConfigList: RouteConfig[] = [
     //     initialData: {}
     // },
     {
-        path: ['/','/home'],
+        path: '/',
         component: Home,
         exact: true,
         initialData: {}

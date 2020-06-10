@@ -6,10 +6,12 @@ const htmlWebpackPlugin = require("html-webpack-plugin")
 const webpackManifestPlugin = require('webpack-manifest-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ComplieDoneNotifyPlugin = require('./plugin/ComplieDoneNotifyPlugin')
 const prodConfig = require('./webpack.prod.config')
 const baseConfig = {
     mode: 'development',
+    devtool: 'source-map',
     entry: {
         index: path.resolve(__dirname, '../src/client/index.tsx')
     },
@@ -111,10 +113,19 @@ const baseConfig = {
     //uglifyjs-webpack-plugin
     plugins: [
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns:[
+                {
+                    from: path.resolve(__dirname, '../src/assets'),
+                    to: './assets'
+                },
+            ]
+        }),
         new webpackManifestPlugin(),
         new htmlWebpackPlugin({
             filename: 'main.html',
             template: path.resolve(__dirname, '../src/index.html'),
+            cache: false,
         }),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",//将css文件单独放入css文件夹中
@@ -123,4 +134,4 @@ const baseConfig = {
         new ComplieDoneNotifyPlugin('client')
     ]
 }
-module.exports = merge(baseConfig, prodConfig);
+module.exports = merge(baseConfig, {});

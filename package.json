@@ -75,6 +75,7 @@
     "chalk": "^4.0.0",
     "cheerio": "^1.0.0-rc.3",
     "commander": "^5.1.0",
+    "copy-webpack-plugin": "^6.0.2",
     "css-modules-require-hook": "^4.2.3",
     "inquirer": "^7.1.0",
     "koa": "^2.11.0",

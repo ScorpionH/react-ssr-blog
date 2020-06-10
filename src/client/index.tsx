@@ -8,7 +8,9 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../share/redux/reducer'
 
-const store = createStore(reducer, {home_reducer: {count: 1}})
+
+const initData = __WINDOW_INITDATA__ || {};
+const store = createStore(reducer, {...initData});
 
 ReactDOM.hydrate(
     <Provider store={store}>

@@ -9,16 +9,13 @@ import RouteApp from '../../route'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../../share/redux/reducer'
-// import sourceMap from '../../../dist/client/manifest.json'
 import fs from 'fs';
 import { resolve } from 'path'
-import cheerio from 'cheerio'
 
 
 const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
-    const initialData = ctx.initialData;
-    console.log(initialData);
-    const store = createStore(reducer, {home_reducer: {count: 1}});
+    let _html = fs.readFileSync(resolve(__dirname, '../client/main.html')).toString();
+    const store = createStore(reducer, {...ctx.initialData});
     const renderString = renderToString(
         <Provider store={store}>
             <StaticRouter location={ctx.request.url}>
@@ -26,24 +23,9 @@ const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
             </StaticRouter>
         </Provider>
     )
-    const html = `
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>my react ssr</title>
-                <link href="css/index.css" rel="stylesheet">
-            </head>
-            <body>
-                <div id="app">${renderString}</div>
-            </body>
-            <script src='js/runtime.js'></script>
-            <script src='js/react-lib.js'></script>
-            <script src='js/antd-design.js'></script>
-            <script src='js/index.js'></script>
-        </html>
-    `
-    ctx.body = html;
+    _html = _html.replace('<!--inject html-->', renderString);
+    _html = _html.replace('<!--inject js-->', `<script>window.__WINDOW_INITDATA__ = ${JSON.stringify(ctx.initialData)}</script>`)
+    ctx.body = _html;
     next();
 }
 export default reactSSR;

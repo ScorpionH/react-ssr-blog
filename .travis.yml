@@ -1,9 +1,9 @@
 language: node_js
 install: true
 script: true
-after_success:
-- ssh blogserver
-- cd /media/react-ssr-blog
-- git pull
-- npm install --unsafe-perm
-- pm2 reastart all
+# after_success:
+# - ssh blogserver
+# - cd /media/react-ssr-blog
+# - git pull
+# - npm install --unsafe-perm
+# - pm2 reastart all
