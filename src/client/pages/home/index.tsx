@@ -29,7 +29,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     render() {
         return (
             <div>
-                <span className='home'>Home</span>
+                <span className='home'>Home_test</span>
                 <span onClick={() => {this.props.add()}}>{this.props.initialData.count}</span>
             </div>
         )
