@@ -1,6 +1,9 @@
 language: node_js
 install: true
 script: true
+before_install:
+- openssl aes-256-cbc -K $encrypted_30ef003541c0_key -iv $encrypted_30ef003541c0_iv
+  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 after_success:
 - ssh blogserver
 - cd /media/react-ssr-blog
