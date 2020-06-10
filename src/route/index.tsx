@@ -1,10 +1,17 @@
 import React from 'react'
 import Layout from '../client/components/layout'
 import { Route, Switch } from 'react-router'
-import ReactSSR from '../types/ReactSSR'
+
 import { RouteComponentProps } from 'react-router-dom'
+type RouteConfig = {
+    path: string | string[],
+    exact: boolean,
+    async?: boolean,
+    component: any
+    initialData: any
+}
 type RouteProps = {
-    routeConfigList: Array<ReactSSR.RouteConfig>,
+    routeConfigList: Array<RouteConfig>,
 }
 const RouteApp: React.FC<RouteProps> = props => {
     const { routeConfigList } = props;

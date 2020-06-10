@@ -1,9 +1,23 @@
 import Home from '../client/pages/home'
 import About from '../client/pages/about'
-import ReactSSR from '../types/ReactSSR'
-const routeConfigList: ReactSSR.RouteConfig[] = [
+import AsyncLoader from './AsyncLoader'
+type RouteConfig = {
+    path: string | string[],
+    exact: boolean,
+    async?: boolean,
+    component: any
+    initialData: any
+}
+const routeConfigList: RouteConfig[] = [
+    // {
+    //     path: ['/','/home'],
+    //     component: AsyncLoader(() => import(/*webpackChunkName:"chunk-home"*/'../client/pages/home')),
+    //     exact: true,
+    //     async: true,
+    //     initialData: {}
+    // },
     {
-        path: '/',
+        path: ['/','/home'],
         component: Home,
         exact: true,
         initialData: {}

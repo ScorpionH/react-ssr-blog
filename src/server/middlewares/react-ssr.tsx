@@ -9,15 +9,16 @@ import RouteApp from '../../route'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../../share/redux/reducer'
-import sourceMap from '../../../dist/client/manifest.json'
+// import sourceMap from '../../../dist/client/manifest.json'
 import fs from 'fs';
 import { resolve } from 'path'
 import cheerio from 'cheerio'
 
-const store = createStore(reducer, {home_reducer: {count: 1}});
+
 const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
-
-
+    const initialData = ctx.initialData;
+    console.log(initialData);
+    const store = createStore(reducer, {home_reducer: {count: 1}});
     const renderString = renderToString(
         <Provider store={store}>
             <StaticRouter location={ctx.request.url}>

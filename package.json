@@ -9,7 +9,10 @@
     "server:dev": "webpack --config ./webpack/webpack.server.config.js  --watch",
     "svr:watch": "node ./scripts/svr-code-watch.js",
     "svr:serve": "node ./scripts/svr-dev-server.js",
-    "svr:start": "node ./scripts/start.js"
+    "svr:start": "node ./scripts/start.js",
+    "client:build": "webpack --config ./webpack/webpack.client.config.js --mode production",
+    "server:build": "webpack --config ./webpack/webpack.server.config.js --mode development",
+    "build": "npm run client:build && npm run server:build"
   },
   "repository": {
     "type": "git",
