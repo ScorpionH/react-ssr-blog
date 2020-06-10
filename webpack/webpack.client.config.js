@@ -126,6 +126,7 @@ const baseConfig = {
             filename: 'main.html',
             template: path.resolve(__dirname, '../src/index.html'),
             cache: false,
+            minify: false,
         }),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",//将css文件单独放入css文件夹中
