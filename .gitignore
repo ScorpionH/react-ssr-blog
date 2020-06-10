@@ -8,7 +8,6 @@ lerna-debug.log*
 /node_modules/
 Icon
 /dist/
-.travis.yml
 id_ras.enc
 yarn.lock
 # Diagnostic reports (https://nodejs.org/api/report.html)
