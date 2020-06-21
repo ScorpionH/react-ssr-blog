@@ -9,8 +9,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ComplieDoneNotifyPlugin = require('./plugin/ComplieDoneNotifyPlugin')
 const prodConfig = require('./webpack.prod.config')
+
+
+const _mode = argv.mode || 'development';
+const mergeConfig = _mode == 'production' ? prodConfig : {}
 const baseConfig = {
-    mode: 'development',
+    mode: _mode,
     devtool: 'source-map',
     entry: {
         index: path.resolve(__dirname, '../src/client/index.tsx')
@@ -20,13 +24,14 @@ const baseConfig = {
         filename: "js/[name].js"
     },
     devServer: {
-        contentBase: __dirname + '/dist',
+        //contentBase: __dirname + '/dist',
         index: 'main.html',
         compress: true,
         port: 12306,
         host: '0.0.0.0',
         useLocalIp: true,
-        historyApiFallback: true
+        historyApiFallback: true,
+        open: true
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -132,7 +137,7 @@ const baseConfig = {
             filename: "css/[name].css",//将css文件单独放入css文件夹中
             chunkFilename: "css/[name].css" //公共样式提取到main.css
         }),
-        new ComplieDoneNotifyPlugin('client')
+        new ComplieDoneNotifyPlugin('client'),
     ]
 }
-module.exports = merge(baseConfig, {});
+module.exports = merge(baseConfig, mergeConfig);

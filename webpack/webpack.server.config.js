@@ -70,7 +70,7 @@ const baseConfig = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            '__IS_SERVER__': true
+            '__IS_SERVER__': true,
         }),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",//将css文件单独放入css文件夹中

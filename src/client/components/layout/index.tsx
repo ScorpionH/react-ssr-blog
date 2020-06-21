@@ -1,6 +1,9 @@
 import React from 'react'
 import { Button } from 'antd'
 import { Link, withRouter, RouteComponentProps, } from 'react-router-dom'
+import {connect} from 'react-redux'
+import './index.scss'
+import Header from '../header'
 interface props { }
 interface state { }
 class Index extends React.Component<props & RouteComponentProps, state> {
@@ -9,11 +12,12 @@ class Index extends React.Component<props & RouteComponentProps, state> {
     }
     render() {
         return (
-            <div>
-                <img src="/assets/images/1.jpg" alt=""/>
-                <Link to='/'><Button>home</Button></Link>
-                <Link to='/about'><Button>about</Button></Link>
-                {this.props.children}
+            <div className='layout'>
+                <Header />
+                
+                <div className="main-content">
+                    {this.props.children}
+                </div>
             </div>
         )
     }

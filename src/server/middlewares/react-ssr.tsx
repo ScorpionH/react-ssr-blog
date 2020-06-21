@@ -12,10 +12,11 @@ import reducer from '../../share/redux/reducer'
 import fs from 'fs';
 import { resolve } from 'path'
 
-
 const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
+    const isMobile = /Andriod|iPhone|iPad|iPod|IEMobile/.test(ctx.request.header['user-agent']);
     let _html = fs.readFileSync(resolve(__dirname, '../client/main.html')).toString();
-    const store = createStore(reducer, {...ctx.initialData});
+    const initialData = {...ctx.initialData, userAgent: {device: isMobile ? 'mobile' : 'pc'}};
+    const store = createStore(reducer, initialData);
     const renderString = renderToString(
         <Provider store={store}>
             <StaticRouter location={ctx.request.url}>
@@ -24,7 +25,7 @@ const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
         </Provider>
     )
     _html = _html.replace('<!--inject html-->', renderString);
-    _html = _html.replace('<!--inject js-->', `<script>window.__WINDOW_INITDATA__ = ${JSON.stringify(ctx.initialData)}</script>`)
+    _html = _html.replace('<!--inject js-->', `<script>window.__WINDOW_INITDATA__ = ${JSON.stringify(initialData)}</script>`)
     ctx.body = _html;
     next();
 }

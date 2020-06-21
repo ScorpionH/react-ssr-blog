@@ -9,6 +9,7 @@ module.exports = {
     output: {
         filename: 'js/[name].js',
     },
+    devtool: false,
     optimization: {
         minimizer: [
             //压缩 js

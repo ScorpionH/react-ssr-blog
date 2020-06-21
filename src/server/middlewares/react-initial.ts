@@ -21,10 +21,10 @@ const reactInitial = async (ctx: Context, next: () => Promise<object>) => {
     }
     const targetComponent = await matchRoute(path);
     let initialData: any = {};
-    if (targetComponent) {
+    if (targetComponent && typeof targetComponent.getInitialData === 'function') {
         initialData = await targetComponent.getInitialData();
     }
-    ctx.initialData = initialData;
+    ctx.initialData = initialData || {};
     await next();
 }
 export default reactInitial;

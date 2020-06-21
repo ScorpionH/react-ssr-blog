@@ -1,12 +1,15 @@
 import Home from '../client/pages/home'
 import About from '../client/pages/about'
+import Publish from '../client/pages/publish'
 import AsyncLoader from './AsyncLoader'
+import { ComponentType } from 'react'
+import {ConnectedComponent, } from 'react-redux'
 type RouteConfig = {
     path: string | string[],
     exact: boolean,
     async?: boolean,
+    authority?: boolean,
     component: any
-    initialData: any
 }
 const routeConfigList: RouteConfig[] = [
     // {
@@ -20,13 +23,17 @@ const routeConfigList: RouteConfig[] = [
         path: '/',
         component: Home,
         exact: true,
-        initialData: {}
     },
     {
         path: '/about',
         component: About,
         exact: true,
-        initialData: {}
+    },
+    {
+        path: '/publish',
+        component: Publish,
+        exact: true,
+        authority: true,
     }
 ]
 
