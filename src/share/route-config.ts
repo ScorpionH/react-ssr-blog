@@ -1,9 +1,6 @@
 import Home from '../client/pages/home'
 import About from '../client/pages/about'
 import Publish from '../client/pages/publish'
-import AsyncLoader from './AsyncLoader'
-import { ComponentType } from 'react'
-import {ConnectedComponent, } from 'react-redux'
 type RouteConfig = {
     path: string | string[],
     exact: boolean,

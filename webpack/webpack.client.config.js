@@ -8,6 +8,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ComplieDoneNotifyPlugin = require('./plugin/ComplieDoneNotifyPlugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const prodConfig = require('./webpack.prod.config')
 
 
@@ -24,7 +25,7 @@ const baseConfig = {
         filename: "js/[name].js"
     },
     devServer: {
-        //contentBase: __dirname + '/dist',
+        contentBase: __dirname + '/dist',
         index: 'main.html',
         compress: true,
         port: 12306,
@@ -86,7 +87,7 @@ const baseConfig = {
             exclude: /node_modules/,
             use: [
                 {
-                    loader: "babel-loader" // 转化需要的loader
+                    loader: "babel-loader", // 转化需要的loader
                 }
             ]
         }, {
@@ -138,6 +139,8 @@ const baseConfig = {
             chunkFilename: "css/[name].css" //公共样式提取到main.css
         }),
         new ComplieDoneNotifyPlugin('client'),
-    ]
+        //new BundleAnalyzerPlugin()
+    ],
+    
 }
 module.exports = merge(baseConfig, mergeConfig);

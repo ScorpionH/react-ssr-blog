@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../share/redux/reducer'
-import hljs from 'highlight.js'
+import * as hljs from 'highlight.js/lib/core'
 import './index.scss'
 let initData = {};
 if(window.__WINDOW_INITDATA__){

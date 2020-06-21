@@ -1,10 +1,10 @@
-import React, { FC, ReactElement, ReactNode } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Input, Form } from 'antd'
 import marked from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css'
-
+import * as hljs from 'highlight.js/lib/core'
+import * as javascript from 'highlight.js/lib/languages/javascript'
 const renderer = new marked.Renderer();
+hljs.registerLanguage('javascript', javascript)
 marked.setOptions({
     renderer: renderer,
     gfm: true,
@@ -18,11 +18,12 @@ marked.setOptions({
     highlight: function (code) {
         return hljs.highlightAuto(code).value;
     }
-})
+});
+// hljs.initHighlightingOnLoad();
 
 const Publish: FC<{}> = props => {
     const [form] = Form.useForm();
-    const result = marked('``` js\n function test(){} \n```', { renderer: renderer });
+    let result = marked('``` js\n function test(){} \n```', { renderer: renderer });
     console.log(result)
     return (
         <div dangerouslySetInnerHTML={{ __html: result }}></div>

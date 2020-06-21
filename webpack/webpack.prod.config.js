@@ -4,6 +4,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 //压缩 js 代码
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin')
 module.exports = {
     mode: 'production',
     output: {
@@ -11,23 +12,25 @@ module.exports = {
     },
     devtool: false,
     optimization: {
+        minimize: true,
         minimizer: [
             //压缩 js
-            new UglifyJsPlugin({
-                uglifyOptions: {
-                    compress: {
-                        //drop_console: true,
-                        //drop_debugger: true
-                    },
-                    //warnings: false,
-                    ie8: true,
-                    output: {
-                        comments: false,
-                    },
-                },
-                cache: true,
-                sourceMap: false
-            }),
+            new TerserPlugin(),
+            // new UglifyJsPlugin({
+            //     uglifyOptions: {
+            //         compress: {
+            //             //drop_console: true,
+            //             //drop_debugger: true
+            //         },
+            //         //warnings: false,
+            //         ie8: true,
+            //         output: {
+            //             comments: false,
+            //         },
+            //     },
+            //     cache: true,
+            //     sourceMap: false
+            // }),
             //压缩 css
             new OptimizeCSSAssetsPlugin()
         ],

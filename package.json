@@ -57,13 +57,16 @@
     "ts-node-dev": "^1.0.0-pre.44",
     "tslint": "^6.1.2",
     "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-manifest-plugin": "^2.2.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-parallel-uglify-plugin": "^1.1.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
     "@types/cheerio": "^0.22.18",
     "@types/markdown-it": "^10.0.1",
     "@types/marked": "^0.7.4",
@@ -98,6 +101,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "scripty": "^2.0.0",
+    "terser-webpack-plugin": "^3.0.6",
     "typescript": "^3.8.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2"
