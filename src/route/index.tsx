@@ -15,12 +15,11 @@ type RouteProps = {
 
 function RouteApp(props: RouteProps) {
     const { routeConfigList } = props;
-
     return (
         <Layout>
             <Link to='/'>home</Link>
             <Link to='/about'>about</Link>
-            <Link to='/publish'>发布</Link>
+            <Link to='/article?id=123'>文章</Link>
             <Switch>
                 {routeConfigList.map((item, index) => {
                     //判断是否有初始数据

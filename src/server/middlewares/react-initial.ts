@@ -22,7 +22,7 @@ const reactInitial = async (ctx: Context, next: () => Promise<object>) => {
     const targetComponent = await matchRoute(path);
     let initialData: any = {};
     if (targetComponent && typeof targetComponent.getInitialData === 'function') {
-        initialData = await targetComponent.getInitialData();
+        initialData = await targetComponent.getInitialData(ctx.request.query.id);
     }
     ctx.initialData = initialData || {};
     await next();
