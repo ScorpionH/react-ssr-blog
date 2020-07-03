@@ -16,13 +16,14 @@ const matchRoute = async (path: string): Promise<any> => {
 }
 const reactInitial = async (ctx: Context, next: () => Promise<object>) => {
     const path = ctx.request.path;
+    console.log(ctx)
     if(path === '/favicon.ico'){
         return;
     }
     const targetComponent = await matchRoute(path);
     let initialData: any = {};
     if (targetComponent && typeof targetComponent.getInitialData === 'function') {
-        initialData = await targetComponent.getInitialData(ctx.request.query.id);
+        initialData = await targetComponent.getInitialData(ctx.request.url.split('/').pop());
     }
     ctx.initialData = initialData || {};
     await next();

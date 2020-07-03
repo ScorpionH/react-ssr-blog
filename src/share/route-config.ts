@@ -1,6 +1,7 @@
 import Home from '../client/pages/home'
 import About from '../client/pages/about'
 import Article from '../client/pages/article'
+import Publish from '../client/pages/publish'
 type RouteConfig = {
     path: string | string[],
     exact: boolean,
@@ -27,8 +28,14 @@ const routeConfigList: RouteConfig[] = [
         exact: true,
     },
     {
-        path: '/article',
+        path: '/article/:id',
         component: Article,
+        exact: true,
+        authority: true,
+    },
+    {
+        path: '/publish',
+        component: Publish,
         exact: true,
         authority: true,
     }

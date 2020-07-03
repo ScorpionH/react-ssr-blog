@@ -4,14 +4,13 @@ import React from 'react'
 import { renderToString, renderToNodeStream } from 'react-dom/server'
 import { Context as KoaContext } from 'koa';
 import routeConfigList from '../../share/route-config'
-import { StaticRouter, Switch, Route } from 'react-router-dom'
+import { StaticRouter } from 'react-router-dom'
 import RouteApp from '../../route'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from '../../share/redux/reducer'
 import fs from 'fs';
 import { resolve } from 'path'
-
 const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
     const isMobile = /Andriod|iPhone|iPad|iPod|IEMobile/.test(ctx.request.header['user-agent']);
     let _html = fs.readFileSync(resolve(__dirname, '../client/main.html')).toString();

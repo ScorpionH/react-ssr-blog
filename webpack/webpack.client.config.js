@@ -8,6 +8,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ComplieDoneNotifyPlugin = require('./plugin/ComplieDoneNotifyPlugin')
+const FixJsSrcPlugin = require('./plugin/FixJsSrcPlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const prodConfig = require('./webpack.prod.config')
 
@@ -116,7 +117,6 @@ const baseConfig = {
             ]
         }]
     },
-    //uglifyjs-webpack-plugin
     plugins: [
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
@@ -134,6 +134,7 @@ const baseConfig = {
             cache: false,
             minify: false,
         }),
+        new FixJsSrcPlugin(),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",//将css文件单独放入css文件夹中
             chunkFilename: "css/[name].css" //公共样式提取到main.css
