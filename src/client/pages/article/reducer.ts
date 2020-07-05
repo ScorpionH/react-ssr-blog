@@ -1,5 +1,5 @@
 import { AnyAction, Action } from 'redux'
-
+import * as request from '../../../share/request'
 const initialState = {
     md: ''
 }

@@ -5,6 +5,7 @@ import { Dispatch } from 'redux'
 import { RouteComponentProps } from 'react-router-dom'
 import * as hljs from 'highlight.js/lib/core'
 import * as javascript from 'highlight.js/lib/languages/javascript'
+import * as request from '../../../share/request'
 import './index.scss';
 
 const renderer = new marked.Renderer();
@@ -27,15 +28,18 @@ hljs.registerLanguage('javascript', javascript);
 
 
 const Publish: any = (props: { md: string, dispatch: Dispatch, } & RouteComponentProps) => {
-    const {md, dispatch} = props;
+    const { md, dispatch } = props;
     const dom = useRef(null);
     useEffect(() => {
-        hljs.highlightBlock(dom.current);
-        if(!md){
+        console.log(dom.current)
+        //hljs.highlightBlock(dom.current);
+        if (!md) {
+            const res = request.getList();
+            //new TextDecoder().decode(new Uint8Array(res.list[0].article.data))
             dispatch({
                 type: 'INIT',
                 data: {
-                    md: '``` js\n function test(){} \n```'
+                    md: new TextDecoder().decode(new Uint8Array(res.list[0].article.data))
                 }
             });
         }
@@ -44,17 +48,19 @@ const Publish: any = (props: { md: string, dispatch: Dispatch, } & RouteComponen
 
 
     return (
-        <>
+        <div className='article'>
             <div ref={dom} className='md' dangerouslySetInnerHTML={{ __html: result }}></div>
-        </>
+        </div>
     )
 }
 Publish.getInitialData = async (articleId: string | undefined) => {
     if (!articleId)
         return { article: {} };
+    const res = await request.getList<any>();
     return {
+
         article: {
-            md: '``` js\n function test(){} \n```'
+            md: new TextDecoder().decode(new Uint8Array(res.data.list[0].article.data))
         }
     };
 }
