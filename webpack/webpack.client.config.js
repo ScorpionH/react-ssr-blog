@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const argv = require('yargs-parser')(process.argv.slice(2));
 const path = require('path');
+const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const webpackManifestPlugin = require('webpack-manifest-plugin')
@@ -117,6 +118,10 @@ const baseConfig = {
             ]
         }]
     },
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
+    },
     plugins: [
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
@@ -140,6 +145,9 @@ const baseConfig = {
             chunkFilename: "css/[name].css" //公共样式提取到main.css
         }),
         new ComplieDoneNotifyPlugin('client'),
+        new webpack.DefinePlugin({
+            '__IS_SERVER__': false,
+        }),
         //new BundleAnalyzerPlugin()
     ],
     
