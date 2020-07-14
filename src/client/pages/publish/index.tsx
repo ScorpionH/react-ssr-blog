@@ -22,7 +22,6 @@ const Publish: React.FC<{}> = prosp => {
             formData.append('file', files[0]);
             reader.readAsArrayBuffer(files[0])
             reader.onload = () => {
-                console.log(reader.result)
                 article = reader.result;
                 //article = new TextDecoder().decode(new Uint8Array((reader.result) as ArrayBuffer));
             }
@@ -34,7 +33,6 @@ const Publish: React.FC<{}> = prosp => {
 
 
         const res = await req.insert(formData)
-        console.log(res);
         // console.log(formData.get('file'))
         // axios.post('http://localhost:4396/api/article/insert', formData)
 

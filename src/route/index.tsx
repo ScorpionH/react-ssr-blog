@@ -1,25 +1,17 @@
 import React from 'react'
 import Layout from '../client/components/layout'
 import { Route, Switch } from 'react-router'
-import { RouteComponentProps, Redirect, Link, withRouter } from 'react-router-dom'
-type RouteConfig = {
-    path: string | string[],
-    exact: boolean,
-    async?: boolean,
-    authority?: boolean,
-    component: any
-}
-type RouteProps = {
-    routeConfigList: Array<RouteConfig>,
-}
+import { RouteComponentProps, Link } from 'react-router-dom'
+import {ComponentType} from 'react'
+import {ConnectedComponent} from 'react-redux'
+import * as Type from '../share/typings'
 
-function RouteApp(props: RouteProps) {
+
+
+function RouteApp(props: {routeConfigList: Type.RouteConfig[]}) {
     const { routeConfigList } = props;
     return (
         <Layout>
-            <Link to='/'>home</Link>
-            <Link to='/about'>about</Link>
-            <Link to='/article?id=123'>文章</Link>
             <Switch>
                 {routeConfigList.map((item, index) => {
                     //判断是否有初始数据

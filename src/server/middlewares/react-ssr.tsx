@@ -8,7 +8,7 @@ import { StaticRouter } from 'react-router-dom'
 import RouteApp from '../../route'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from '../../share/redux/reducer'
+import reducer from '../../share/store'
 import fs from 'fs';
 import { resolve } from 'path'
 const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {

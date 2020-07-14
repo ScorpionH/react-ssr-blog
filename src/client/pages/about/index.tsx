@@ -1,11 +1,9 @@
 import React from 'react'
+import {RouteComponentProps} from 'react-router-dom'
 class About extends React.Component {
-    constructor(props: any){
+    constructor(props: RouteComponentProps){
         super(props);
     }
-    // static async getInitialData(){
-        
-    // }
     click = () => {
         alert(123)
     }

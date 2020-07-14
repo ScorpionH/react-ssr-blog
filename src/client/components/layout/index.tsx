@@ -13,8 +13,6 @@ class Index extends React.Component<props & RouteComponentProps, state> {
     render() {
         return (
             <div className='layout'>
-                <Header />
-                
                 <div className="main-content">
                     {this.props.children}
                 </div>

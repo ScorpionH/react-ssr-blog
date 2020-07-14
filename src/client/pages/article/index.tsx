@@ -6,6 +6,8 @@ import { RouteComponentProps } from 'react-router-dom'
 import * as hljs from 'highlight.js/lib/core'
 import * as javascript from 'highlight.js/lib/languages/javascript'
 import * as request from '../../../share/request'
+import ArticleTypes from '../../../share/typings/article'
+import Types from '../../../share/typings'
 import './index.scss';
 
 const renderer = new marked.Renderer();
@@ -26,50 +28,49 @@ marked.setOptions({
 });
 hljs.registerLanguage('javascript', javascript);
 
-
-const Publish: any = (props: { md: string, dispatch: Dispatch, } & RouteComponentProps) => {
-    const { md, dispatch } = props;
+type ArticleType = Pick<ArticleTypes.ArtilceState, 'article'>
+const Article: FC<ArticleType & RouteComponentProps<{id: string}>> & Types.InitialComponent = (props) => {
+    const { article } = props;
+    console.log(article)
+    //console.log(props.match.params.id);
     const dom = useRef(null);
     useEffect(() => {
-        console.log(dom.current)
-        //hljs.highlightBlock(dom.current);
-        if (!md) {
-            const res = request.getList();
-            //new TextDecoder().decode(new Uint8Array(res.list[0].article.data))
-            dispatch({
-                type: 'INIT',
-                data: {
-                    md: new TextDecoder().decode(new Uint8Array(res.list[0].article.data))
-                }
-            });
-        }
+        console.log(typeof props.article?.article);
+        //md: new TextDecoder().decode(new Uint8Array(res.list[0].article.data))
     }, []);
-    const result = marked(props.md, { renderer: renderer });
-
-
+    //const result = marked(props.md, { renderer: renderer });
     return (
         <div className='article'>
-            <div ref={dom} className='md' dangerouslySetInnerHTML={{ __html: result }}></div>
+            {
+                article ?
+                    <div ref={dom} className='md' dangerouslySetInnerHTML={{ 
+                        __html: marked(new TextDecoder().decode(new Uint8Array(article.article.data)), {renderer}) 
+                    }}></div> : '文章未找到'
+
+            }
+
         </div>
     )
 }
-Publish.getInitialData = async (articleId: string | undefined) => {
+Article.getInitialData = async (articleId: string | undefined): Promise<ArticleType> => {
+    console.log(articleId)
     if (!articleId)
-        return { article: {} };
-    const res = await request.getList<any>();
-    return {
-
-        article: {
-            md: new TextDecoder().decode(new Uint8Array(res.data.list[0].article.data))
-        }
-    };
+        return { article: null };
+    try {
+        const res = await request.getArticle<ArticleType>(articleId);
+        return {
+            article: res.data?.article
+        };
+    } catch (e) {
+        return { article: null }
+    }
 }
-function mapStateToProps(state: any) {
+function mapStateToProps(state: ArticleType) {
     return {
-        md: state.article.md
+        article: state.article
     }
 }
 function mapDispatchToProps(dispatch: Dispatch,) {
     return { dispatch }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Publish);
+export default connect(mapStateToProps, mapDispatchToProps)(Article);

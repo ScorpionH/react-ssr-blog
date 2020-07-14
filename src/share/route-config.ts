@@ -2,14 +2,8 @@ import Home from '../client/pages/home'
 import About from '../client/pages/about'
 import Article from '../client/pages/article'
 import Publish from '../client/pages/publish'
-type RouteConfig = {
-    path: string | string[],
-    exact: boolean,
-    async?: boolean,
-    authority?: boolean,
-    component: any
-}
-const routeConfigList: RouteConfig[] = [
+import * as Type from './typings'
+const routeConfigList: Type.RouteConfig[] = [
     // {
     //     path: ['/','/home'],
     //     component: AsyncLoader(() => import(/*webpackChunkName:"chunk-home"*/'../client/pages/home')),

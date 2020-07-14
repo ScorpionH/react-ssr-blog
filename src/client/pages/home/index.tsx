@@ -2,19 +2,22 @@ import React, { ComponentProps } from 'react'
 import { Button } from 'antd'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import {Link, withRouter, RouteComponentProps, RouteChildrenProps} from 'react-router-dom'
+import { Link, withRouter, RouteComponentProps, RouteChildrenProps } from 'react-router-dom'
 import * as request from '../../../share/request'
-
+import HomeTypes from '../../../share/typings/home'
+import Actions from './actions'
 import './index.scss'
-
-type IHomeProps  = {
-    count: number,
-    list: { title: string }[],
-    device: 'pc' | 'mobile',
-    dispatch: Dispatch
+type ArticleList = HomeTypes.HomeState['articleList'];
+type IHomeProps = {
+    articleList: ArticleList,
+    init: (articleList: ArticleList) => void
 }
-type IHomeState  = {
-
+type IHomeState = {
+    pager: {
+        total: number,
+        current: number,
+        size: number,
+    }
 }
 
 class Home extends React.Component<IHomeProps, IHomeState> {
@@ -22,62 +25,47 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         super(props);
     }
     async componentDidMount() {
-        if (this.props.list.length == 0) {
-            try {
-                const res = await request.getList();
-                const { data } = res;
-                this.props.dispatch({
-                    type: 'INIT',
-                    data: {
-                        list: data.list,
-                        count: 1
-                    }
-                })
-            } catch (e) {
-
-            }
+        try {
+            const res = await request.getArticleList<{ articleList: ArticleList }>();
+            const { data } = res;
+            if (data)
+                this.props.init(data.articleList);
+        } catch (e) {
+            console.log(e)
         }
     }
     static async getInitialData() {
         try {
-            const res = await request.getList();
+            const res = await request.getArticleList<{ articleList: ArticleList }>();
             const { data } = res;
-            return { home: { list: data.list, count: 1 }, }
+            if (data)
+                return { home: { articleList: data.articleList } }
+            return { home: { articleList: [] } }
         } catch (e) {
-            return {}
+            return { home: { articleList: [] } }
         }
     }
-    getData = async () => {
-
-    }
     render() {
-        const artileList = [
-            {
-                title: '',
-                desc: '',
-                link: '',
-                createTime: '',
-                icons: ['', '']
-            }
-        ]
+        const { articleList } = this.props;
         return (
             <div className="home">
                 <ul className="artile-list" >
                     <li className="artile-item">
                         <p className="title">react ssr</p>
-                        <img src="/assets/images/icons8-react-20.png" alt=""/>
+                        <img src="/assets/images/icons8-react-20.png" alt="" />
                     </li>
                 </ul>
             </div>
         )
     }
 }
-function mapStateToProps(state: any) {
-    const { count, list } = state.home;
-    const { device } = state.userAgent;
-    return { count, list, device };
+function mapStateToProps(state: { home: HomeTypes.HomeState }) {
+    const { articleList } = state.home;
+    return { articleList };
 }
 function mapDispatchToProps(dispatch: Dispatch,) {
-    return { dispatch }
+    return {
+        init: (articleList: ArticleList) => dispatch(Actions.INIT(articleList))
+    }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

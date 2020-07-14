@@ -1,5 +1,5 @@
-import home_reducer from '../../client/pages/home/reducer';
-import article_reducer from '../../client/pages/article/reducer'
+import home_reducer from './home_reducer';
+import article_reducer from './article_reducer'
 //合并多个 reducer
 import {combineReducers } from 'redux';
 const user = (state = {isLogin: true, userName: '', avatar: ''}) => {
