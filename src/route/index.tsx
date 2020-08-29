@@ -8,7 +8,7 @@ import * as Type from '../share/typings'
 
 
 
-function RouteApp(props: {routeConfigList: Type.RouteConfig[]}) {
+function RouteApp(props: {routeConfigList: Array<Type.RouteConfig>}) {
     const { routeConfigList } = props;
     return (
         <Layout>

@@ -12,6 +12,7 @@ import './index.scss';
 
 const renderer = new marked.Renderer();
 
+
 marked.setOptions({
     renderer: renderer,
     gfm: true,
@@ -29,26 +30,20 @@ marked.setOptions({
 hljs.registerLanguage('javascript', javascript);
 
 type ArticleType = Pick<ArticleTypes.ArtilceState, 'article'>
-const Article: FC<ArticleType & RouteComponentProps<{id: string}>> & Types.InitialComponent = (props) => {
+const Article: FC<ArticleType & RouteComponentProps<{ id: string }>> & Types.InitialComponent = props => {
     const { article } = props;
-    console.log(article)
-    //console.log(props.match.params.id);
     const dom = useRef(null);
     useEffect(() => {
         console.log(typeof props.article?.article);
-        //md: new TextDecoder().decode(new Uint8Array(res.list[0].article.data))
     }, []);
-    //const result = marked(props.md, { renderer: renderer });
     return (
         <div className='article'>
             {
                 article ?
-                    <div ref={dom} className='md' dangerouslySetInnerHTML={{ 
-                        __html: marked(new TextDecoder().decode(new Uint8Array(article.article.data)), {renderer}) 
+                    <div ref={dom} className='md' dangerouslySetInnerHTML={{
+                        __html: marked(new TextDecoder().decode(new Uint8Array(article.article.data)), { renderer })
                     }}></div> : '文章未找到'
-
             }
-
         </div>
     )
 }

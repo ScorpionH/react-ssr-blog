@@ -28,11 +28,19 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         try {
             const res = await request.getArticleList<{ articleList: ArticleList }>();
             const { data } = res;
+            console.log(data);
             if (data)
                 this.props.init(data.articleList);
         } catch (e) {
             console.log(e)
         }
+        $(".flipbook").turn({
+            width: $('.flipbook')[0].offsetWidth,
+            height: $('.flipbook')[0].offsetHeight,
+            autoCenter: true,
+            display: 'single',
+            acceleration: true,
+        });
     }
     static async getInitialData() {
         try {
@@ -49,12 +57,13 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         const { articleList } = this.props;
         return (
             <div className="home">
-                <ul className="artile-list" >
-                    <li className="artile-item">
-                        <p className="title">react ssr</p>
-                        <img src="/assets/images/icons8-react-20.png" alt="" />
-                    </li>
-                </ul>
+                <div className="flipbook">
+                    {
+                        [1,2,3,4,5,6,7].map((i: number) => {
+                            return <div key={i} className='_page'> Page 1 </div>
+                        })
+                    }
+                </div>
             </div>
         )
     }

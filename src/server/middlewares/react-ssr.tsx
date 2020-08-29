@@ -14,7 +14,7 @@ import { resolve } from 'path'
 const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
     const isMobile = /Andriod|iPhone|iPad|iPod|IEMobile/.test(ctx.request.header['user-agent']);
     let _html = fs.readFileSync(resolve(__dirname, '../client/main.html')).toString();
-    const initialData = {...ctx.initialData, userAgent: {device: isMobile ? 'mobile' : 'pc'}};
+    const initialData = { ...ctx.initialData, userAgent: { device: isMobile ? 'mobile' : 'pc' } };
     const store = createStore(reducer, initialData);
     const renderString = renderToString(
         <Provider store={store}>
