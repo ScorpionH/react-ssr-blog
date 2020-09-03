@@ -1,14 +1,12 @@
 import React, { ChangeEvent, useEffect } from 'react'
-import { Form, Input, Button } from 'antd'
-import { FormInstance, } from 'antd/lib/form';
+// import { Form, Input, Button } from 'antd'
+// import { FormInstance, } from 'antd/lib/form';
 import * as req from '../../../share/request'
-import axios from 'axios'
-const { Item } = Form;
 type Props = {
 
 }
 const Publish: React.FC<{}> = prosp => {
-    const formRef = React.createRef<FormInstance>();
+    // const formRef = React.createRef<FormInstance>();
     let article: any = '';
     let formData: FormData;
     if(!__IS_SERVER__){
@@ -46,10 +44,12 @@ const Publish: React.FC<{}> = prosp => {
     }
     return (
         <>
-            <Form ref={formRef}>
+            {/* <Form ref={formRef}>
                 <Input onChange={fileChange} type='file' />
             </Form>
-            <Button onClick={_request}>提交</Button>
+            <Button onClick={_request}>提交</Button> */}
+            <input onChange={fileChange} type='file'/>
+            <button onClick={_request}>提交</button>
         </>
     )
 }

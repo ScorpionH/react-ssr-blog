@@ -1,32 +1,53 @@
 import React, { ComponentProps } from 'react'
-import { Button } from 'antd'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { Link, withRouter, RouteComponentProps, RouteChildrenProps } from 'react-router-dom'
 import * as request from '../../../share/request'
 import HomeTypes from '../../../share/typings/home'
+import { Article } from '../../../share/typings/index'
 import Actions from './actions'
 import './index.scss'
-type ArticleList = HomeTypes.HomeState['articleList'];
 type IHomeProps = {
-    articleList: ArticleList,
-    init: (articleList: ArticleList) => void
+    articleList: Article[],
+    init: (articleList: Article[]) => void
 }
 type IHomeState = {
-    pager: {
-        total: number,
-        current: number,
-        size: number,
+    current: number,
+    toPage: number,
+    flipbook: {
+        turn: (method: string) => void
     }
 }
-
+const ArticleItem = () => {
+    return (
+        <div className="article-item">
+            <div className="article-head">
+                <p className="article-title">文章1</p>
+                <p className="pub-time">2020-20-20</p>
+            </div>
+            <div className="article-body">
+                内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+            </div>
+            <div className="article-footer">
+                <img src="/assets/images/icons8-babel-20.png" alt="" />
+            </div>
+        </div>
+    )
+}
 class Home extends React.Component<IHomeProps, IHomeState> {
+    state = {
+        toPage: 1,
+        current: 1,
+        flipbook: {
+            turn: function (method: string) { }
+        }
+    }
     constructor(props: IHomeProps) {
         super(props);
     }
     async componentDidMount() {
+        const that = this;
         try {
-            const res = await request.getArticleList<{ articleList: ArticleList }>();
+            const res = await request.getArticleList<{ articleList: Article[] }>();
             const { data } = res;
             console.log(data);
             if (data)
@@ -34,17 +55,23 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         } catch (e) {
             console.log(e)
         }
-        $(".flipbook").turn({
+        this.state.flipbook = $(".flipbook").turn({
             width: $('.flipbook')[0].offsetWidth,
             height: $('.flipbook')[0].offsetHeight,
             autoCenter: true,
             display: 'single',
             acceleration: true,
+            when: {
+                turning: function (event: Event, page: number,) {
+                    that.setState({ current: page })
+                },
+                start: that.drop
+            }
         });
     }
     static async getInitialData() {
         try {
-            const res = await request.getArticleList<{ articleList: ArticleList }>();
+            const res = await request.getArticleList<{ articleList: Article[] }>();
             const { data } = res;
             if (data)
                 return { home: { articleList: data.articleList } }
@@ -53,16 +80,55 @@ class Home extends React.Component<IHomeProps, IHomeState> {
             return { home: { articleList: [] } }
         }
     }
+    // 拉起页脚
+    drop = (event: Event, pageObject: { page: number, next: number }, corner: string | null) => {
+        if (corner === null)
+            return;
+        const isNext = corner[1] === 'r';
+        const { page } = pageObject;
+        this.setState({ toPage: page + (isNext ? 1 : -1) })
+    }
+    // 翻页
+    next = () => {
+        this.state.flipbook.turn('next');
+    }
     render() {
         const { articleList } = this.props;
+        console.log(articleList)
+        const { current } = this.state;
+        const tempArticles: Article[] = [];
+        const renderArray: Array<Article[]> = [];
+        articleList.forEach((article: Article) => {
+            if (tempArticles.push(article) === 5) {
+                renderArray.push(tempArticles);
+                tempArticles.length = 0;
+            }
+        });
+        if (tempArticles.length)
+            renderArray.push(tempArticles);
+        console.log(renderArray);
         return (
             <div className="home">
                 <div className="flipbook">
                     {
-                        [1,2,3,4,5,6,7].map((i: number) => {
-                            return <div key={i} className='_page'> Page 1 </div>
-                        })
+                        renderArray.map((item: Article[], index: number) => {
+                            return <div key={index} className='_page'>
+                                {
+                                    current === index + 1 ?
+                                        item.map((article => <ArticleItem />)) :
+                                        null
+                                }
+                            </div>
+                        }).concat(
+                            <div className='_page'>
+                                {
+                                    current === renderArray.length + 1?
+                                        <div>长路漫漫，唯剑作伴。。。</div> : null
+                                }
+                            </div>
+                        )
                     }
+
                 </div>
             </div>
         )
@@ -74,7 +140,7 @@ function mapStateToProps(state: { home: HomeTypes.HomeState }) {
 }
 function mapDispatchToProps(dispatch: Dispatch,) {
     return {
-        init: (articleList: ArticleList) => dispatch(Actions.INIT(articleList))
+        init: (articleList: Article[]) => dispatch(Actions.INIT(articleList))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
