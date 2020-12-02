@@ -1,7 +1,7 @@
 import React from 'react'
 
 //服务端渲染方法
-import { renderToString, renderToNodeStream } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import { Context as KoaContext } from 'koa';
 import routeConfigList from '../../share/route-config'
 import { StaticRouter } from 'react-router-dom'
@@ -29,3 +29,5 @@ const reactSSR = async (ctx: KoaContext, next: () => Promise<object>) => {
     next();
 }
 export default reactSSR;
+
+// 服务端 -》 客户端

@@ -22,6 +22,7 @@ const killChildProcess = () => {
 }
 
 
+
 //监听服务端代码构建服务的对外输出  stdout 事件
 svrCodeWatchProcess.stdout.on('data', stdout => {
     stdout.toString().split('\n').forEach(item => {

@@ -9,9 +9,8 @@ import * as request from '../../../share/request'
 import ArticleTypes from '../../../share/typings/article'
 import Types from '../../../share/typings'
 import './index.scss';
-
+type ArticleType = Pick<ArticleTypes.ArtilceState, 'article'>
 const renderer = new marked.Renderer();
-
 
 marked.setOptions({
     renderer: renderer,
@@ -29,7 +28,6 @@ marked.setOptions({
 });
 hljs.registerLanguage('javascript', javascript);
 
-type ArticleType = Pick<ArticleTypes.ArtilceState, 'article'>
 const Article: FC<ArticleType & RouteComponentProps<{ id: string }>> & Types.InitialComponent = props => {
     const { article } = props;
     const dom = useRef(null);
@@ -42,13 +40,12 @@ const Article: FC<ArticleType & RouteComponentProps<{ id: string }>> & Types.Ini
                 article ?
                     <div ref={dom} className='md' dangerouslySetInnerHTML={{
                         __html: marked(new TextDecoder().decode(new Uint8Array(article.article.data)), { renderer })
-                    }}></div> : '文章未找到'
+                    }}></div> : '没有内容'
             }
         </div>
     )
 }
 Article.getInitialData = async (articleId: string | undefined): Promise<ArticleType> => {
-    console.log(articleId)
     if (!articleId)
         return { article: null };
     try {

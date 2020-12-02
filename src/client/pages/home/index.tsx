@@ -53,7 +53,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
             if (data)
                 this.props.init(data.articleList);
         } catch (e) {
-            console.log(e)
+            // console.log(e)
         }
         this.state.flipbook = $(".flipbook").turn({
             width: $('.flipbook')[0].offsetWidth,
@@ -94,7 +94,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     }
     render() {
         const { articleList } = this.props;
-        console.log(articleList)
         const { current } = this.state;
         const tempArticles: Article[] = [];
         const renderArray: Array<Article[]> = [];
@@ -106,7 +105,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         });
         if (tempArticles.length)
             renderArray.push(tempArticles);
-        console.log(renderArray);
         return (
             <div className="home">
                 <div className="flipbook">
@@ -115,17 +113,20 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                             return <div key={index} className='_page'>
                                 {
                                     current === index + 1 ?
-                                        item.map((article => <ArticleItem />)) :
+                                        item.map((article => <ArticleItem key={article.id}/>)) :
                                         null
                                 }
                             </div>
                         }).concat(
-                            <div className='_page'>
-                                {
-                                    current === renderArray.length + 1?
-                                        <div>长路漫漫，唯剑作伴。。。</div> : null
-                                }
-                            </div>
+                            [
+                                renderArray.length === 0 ? <div className="_page">没有内容</div> : <></>,
+                                <div className='_page'>
+                                    {
+                                        current === (renderArray.length || 1) + 1 ?
+                                            <div>这个人很懒，什么也没留下。。。</div> : null
+                                    }
+                                </div>
+                            ]
                         )
                     }
 
