@@ -30,7 +30,6 @@ hljs.registerLanguage('javascript', javascript);
 
 const Article: FC<ArticleType & RouteComponentProps<{ id: string }> & { dispatch: Dispatch }> & Types.InitialComponent = props => {
     const { article } = props;
-    console.log(article)
     const dom = useRef(null);
     useEffect(() => {
         (async function () {
