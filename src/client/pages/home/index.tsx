@@ -1,10 +1,11 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, useState } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import * as request from '../../../share/request'
 import HomeTypes from '../../../share/typings/home'
 import { Article } from '../../../share/typings/index'
 import Actions from './actions'
+import {Link} from 'react-router-dom'
 import './index.scss'
 type IHomeProps = {
     articleList: Article[],
@@ -49,7 +50,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         try {
             const res = await request.getArticleList<{ articleList: Article[] }>();
             const { data } = res;
-            console.log(data);
             if (data)
                 this.props.init(data.articleList);
         } catch (e) {
@@ -107,6 +107,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
             renderArray.push(tempArticles);
         return (
             <div className="home">
+                <Link to='/article/5f5101fe4d6b33de29d88c97' >sss</Link>
                 <div className="flipbook">
                     {
                         renderArray.map((item: Article[], index: number) => {
@@ -145,3 +146,4 @@ function mapDispatchToProps(dispatch: Dispatch,) {
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
+

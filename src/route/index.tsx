@@ -1,9 +1,7 @@
 import React from 'react'
 import Layout from '../client/components/layout'
 import { Route, Switch } from 'react-router'
-import { RouteComponentProps, Link } from 'react-router-dom'
-import {ComponentType} from 'react'
-import {ConnectedComponent} from 'react-redux'
+import { RouteComponentProps, } from 'react-router-dom'
 import * as Type from '../share/typings'
 
 

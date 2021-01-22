@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+// const BASE_URL = "http://47.99.60.186:4396/api/";
 const BASE_URL = "http://localhost:4396/api/";
 type option = {
     method: "get" | "GET" | "delete" | "DELETE" | "head" | "HEAD" | "options" | "OPTIONS" | "post" | "POST" | "put" | "PUT" | "patch" | "PATCH" | "link" | "LINK" | "unlink" | "UNLINK" | undefined,

@@ -28,18 +28,27 @@ marked.setOptions({
 });
 hljs.registerLanguage('javascript', javascript);
 
-const Article: FC<ArticleType & RouteComponentProps<{ id: string }>> & Types.InitialComponent = props => {
+const Article: FC<ArticleType & RouteComponentProps<{ id: string }> & { dispatch: Dispatch }> & Types.InitialComponent = props => {
     const { article } = props;
+    console.log(article)
     const dom = useRef(null);
     useEffect(() => {
-        console.log(typeof props.article?.article);
+        (async function () {
+            if (!article?.article) {
+                const articleId = location.pathname.split('/').pop();
+                const res = await request.getArticle<ArticleType>(articleId as string);
+                if (res.data?.article) {
+                    props.dispatch({ type: 'INIT', data: res.data.article })
+                }
+            }
+        })()
     }, []);
     return (
         <div className='article'>
             {
-                article ?
+                article?.article ?
                     <div ref={dom} className='md' dangerouslySetInnerHTML={{
-                        __html: marked(new TextDecoder().decode(new Uint8Array(article.article.data)), { renderer })
+                        __html: marked(article.article, { renderer })
                     }}></div> : '没有内容'
             }
         </div>
