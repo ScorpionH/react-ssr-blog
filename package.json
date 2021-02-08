@@ -90,7 +90,7 @@
     "koa-static": "^5.0.0",
     "markdown-it": "^11.0.0",
     "markdown-it-highlightjs": "^3.1.0",
-    "marked": "^1.1.0",
+    "marked": "^2.0.0",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
